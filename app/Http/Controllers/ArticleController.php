@@ -45,4 +45,25 @@ class ArticleController extends Controller
         // Редирект на указанный маршрут с добавлением флеш сообщения
         return redirect()->route('articles.index')->with('success', 'Article created successfully');
       }
+
+    public function edit($id)
+    {
+        $article = Article::findOrFail($id);
+        return view('article.edit', compact('article'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $article = Article::findOrFail($id);
+        $this->validate($request, [
+            // У обновления немного измененная валидация. В проверку уникальности добавляется id текущего объекта
+            // Если этого не сделать, Laravel будет ругаться на то что имя уже существует
+            'name' => 'required|unique:articles,' . $article->id,
+            'body' => 'required|min:100',
+        ]);
+
+        $article->fill($request->all());
+        $article->save();
+        return redirect()->route('articles.index');
+    }
 }
