@@ -8,6 +8,7 @@
                 <tr>
                     <td>ID</td>
                     <td>Name</td>
+                    <td>Actions</td>
                 </tr>
             </thead>
             <tbody>
@@ -15,6 +16,7 @@
                     <tr>
                         <td>{{$article->id}}</td>
                         <td><a href="{{route('articles.show', $article->id)}}">{{$article->name}}</a></td>
+                        <td><a href="{{route('articles.edit', $article->id)}}">Edit</td>
                     </tr>
                 @endforeach
             </tbody>
