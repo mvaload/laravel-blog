@@ -7,18 +7,22 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $articles = Article::paginate(5);
         return view('article.index', compact('articles'));
     }
 
-    public function show($id)
-    {
-        $article = Article::findOrFail($id);
-        return view('article.show', compact('article'));
-    }
-        // Вывод формы
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         // Передаем в шаблон вновь созданный объект. Он нужен для вывода формы через Form::model
@@ -26,7 +30,12 @@ class ArticleController extends Controller
         return view('article.create', compact('article'));
     }
 
-    // Здесь нам понадобится объект запроса, для извлечения данных
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         // Проверка введенных данных
@@ -44,14 +53,39 @@ class ArticleController extends Controller
 
         // Редирект на указанный маршрут с добавлением флеш сообщения
         return redirect()->route('articles.index')->with('success', 'Article created successfully');
-      }
+    }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $article = Article::findOrFail($id);
+        return view('article.show', compact('article'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
         $article = Article::findOrFail($id);
         return view('article.edit', compact('article'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, $id)
     {
         $article = Article::findOrFail($id);
@@ -64,13 +98,19 @@ class ArticleController extends Controller
 
         $article->fill($request->all());
         $article->save();
-        return redirect()->route('articles.index');
+        return redirect()->route('articles.index')->with('success', 'Article created successfully');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
         $article = Article::findOrFail($id);
         $article->delete();
-        return redirect()->route('articles.index');
+        return redirect()->route('articles.index')->with('success', 'Article removed successfully');
     }
 }
