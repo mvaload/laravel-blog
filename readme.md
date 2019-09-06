@@ -1,6 +1,6 @@
-### Training project on Laravel    
+## Training project on Laravel    
 
-## Setup    
+### Setup    
 $ make setup
-## Run    
+### Run    
 $ make start
